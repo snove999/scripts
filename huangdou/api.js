@@ -29,7 +29,7 @@ c.mode.CTRGladman=function(){var t=c.lib.BlockCipherMode.extend();function e(t){
 
 ;var pako=(typeof pako!=="undefined"?pako:(typeof globalThis!=="undefined"?globalThis.pako:undefined));
 /**
- * 黄豆短剧 QX 解锁 V4 — API-only / CryptoJS / Pako
+ * 黄豆短剧 QX 解锁 V5 — 短剧 + dating 擦边专区
  * QX 兼容：不依赖 crypto.subtle/TextEncoder/CompressionStream。
  * request 阶段保存 play 的 id/seq；response 阶段解密→改写→再加密。
  */
@@ -298,8 +298,16 @@ function hdResponsePhase() {
     }
   }
   if (path.indexOf("/doBuy") >= 0) {
-    obj = { status: "y", data: { status: true, is_buy: true } };
+    obj = { status: "y", data: { status: true, is_buy: true, can_vip_watch: true } };
     changed = true;
+  }
+  // “擦边”专区使用独立 dating API，不走 drama/detail。
+  // 详情可能包在 data.girl，也可能直接位于 data；统一递归放行购买字段。
+  if (path.indexOf("/dating/") >= 0 && obj && typeof obj === "object") {
+    obj.status = "y";
+    if (obj.data && typeof obj.data === "object") obj.data = hdDeep(obj.data);
+    changed = true;
+    hdLog("dating unlock " + path);
   }
   if (obj && typeof obj === "object") {
     var before = JSON.stringify(obj);

@@ -1,7 +1,7 @@
 /**
- * 黄豆短剧前端补丁 V4
- * - HTML: 禁用旧 Service Worker 缓存，给 main.js 加版本 query 强制走网络
- * - main.js: ano 永远 false / anL free / qu 不弹购买 / 锁图标清除
+ * 黄豆短剧前端补丁 V5
+ * - HTML: 禁用旧 Service Worker 缓存，给 main.dart.js / 哈希主包加版本 query
+ * - main.js: anp/ano 永远 false / anM free / qu 不弹购买 / 锁图标清除
  */
 (function () {
   var url = String($request.url || "");
@@ -9,8 +9,16 @@
   if (typeof body !== "string" || body.length < 100) return $done({});
   var n = 0;
 
-  if (/main(\.[a-f0-9]+)?\.js(?:\?|$)/i.test(url) || body.indexOf("ano(a){var s,r=this.Id(a)") >= 0) {
+  if (/main(?:\.dart|\.[a-f0-9]+)*\.js(?:\?|$)/i.test(url) || body.indexOf("anp(a){var s,r=this.Ic(a)") >= 0 || body.indexOf("ano(a){var s,r=this.Id(a)") >= 0) {
     var reps = [
+      [
+        'anp(a){var s,r=this.Ic(a)\nif(r==null)s=null\nelse{s=r.e\ns=!(s==="free"||s==="")&&!r.r}return s===!0||this.y.q(0,a)}',
+        "anp(a){return!1}"
+      ],
+      [
+        'anM(a){var s,r=this.Ic(a)\nif(r==null)return"vip"\ns=r.e\nif(s==="coin")return"coin"\nif(s==="points")return"points"\nreturn"vip"}',
+        'anM(a){return"free"}'
+      ],
       [
         "ano(a){var s,r=this.Id(a)\nif(r==null)s=null\nelse{s=r.e\ns=!(s===\"free\"||s===\"\")&&!r.r}return s===!0||this.y.q(0,a)}",
         "ano(a){return!1}"
@@ -59,7 +67,7 @@
 
   // SPA HTML：强制 main 请求变化，绕过 SW / CacheStorage 旧包
   if (/<html/i.test(body) && body.indexOf("main.") >= 0) {
-    body = body.replace(/(main\.[a-f0-9]+\.js)(?!\?)/gi, "$1?hdqx=v4");
+    body = body.replace(/(main(?:\.dart|\.[a-f0-9]+)*\.js)(?!\?)/gi, "$1?hdqx=v5");
     // 不再注册 sw.js
     body = body.replace(/navigator\.serviceWorker\.register\(['"]sw\.js['"]\)/g, "Promise.resolve(null)");
     var clear = '<script>(function(){try{if(navigator.serviceWorker)navigator.serviceWorker.getRegistrations().then(function(a){a.forEach(function(r){r.unregister()})});if(window.caches)caches.keys().then(function(a){a.forEach(function(k){caches.delete(k)})})}catch(e){}})();</script>';
