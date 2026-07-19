@@ -1,0 +1,6 @@
+#!name=黄豆短剧媒体CDN修复
+#!desc=修复专题/擦边短剧播放转圈暂停：仅将黄豆使用的两个CloudFront媒体域名交给Quantumult X代理解析。
+#!author=xiadasy
+
+host, d2fj29l82y21f5.cloudfront.net, proxy
+host, dvowpw98oj2co.cloudfront.net, proxy
