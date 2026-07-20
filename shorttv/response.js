@@ -34,6 +34,12 @@ function walk(x, rootDramaId="") {
   if (Object.prototype.hasOwnProperty.call(x,"gap")) x.gap = 0;
   if (Object.prototype.hasOwnProperty.call(x,"episodesNeeded")) x.episodesNeeded = 0;
   if (Object.prototype.hasOwnProperty.call(x,"balance")) x.balance = 999999;
+  if (Object.prototype.hasOwnProperty.call(x,"coins")) x.coins = 999999;
+  if (Object.prototype.hasOwnProperty.call(x,"coinBalance")) x.coinBalance = 999999;
+  if (Object.prototype.hasOwnProperty.call(x,"unlockCoins")) x.unlockCoins = 0;
+  if (Object.prototype.hasOwnProperty.call(x,"unlockPriceCoins")) x.unlockPriceCoins = 0;
+  if (Object.prototype.hasOwnProperty.call(x,"priceCoins")) x.priceCoins = 0;
+  if (Object.prototype.hasOwnProperty.call(x,"isGuest")) x.isGuest = false;
   if (Object.prototype.hasOwnProperty.call(x,"requiresAdultConfirm")) x.requiresAdultConfirm = false;
 
   if (!Array.isArray(x) && typeof x.id === "string") {
