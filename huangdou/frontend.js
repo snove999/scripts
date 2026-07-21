@@ -1,5 +1,5 @@
 /**
- * 黄豆短剧前端补丁 V6
+ * 黄豆短剧前端补丁 V6 (Loon 适配版)
  * - HTML: 禁用旧 Service Worker 缓存，给 main.dart.js / 哈希主包加版本 query
  * - main.js: anp/ano 永远 false / anM free / qu 不弹购买 / 锁图标清除
  */
